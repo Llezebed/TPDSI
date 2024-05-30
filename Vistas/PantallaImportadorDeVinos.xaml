@@ -1,0 +1,72 @@
+﻿<UserControl x:Class="Vistas.PantallaImportadorDeVinos"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Vistas"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:svc="clr-namespace:ClasesBase;assembly=ClasesBase"
+             xmlns:componentModel ="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+             mc:Ignorable="d" 
+             d:DesignHeight="500" Width="auto">
+    <UserControl.Resources>
+        <ObjectDataProvider
+            ObjectType="{x:Type svc:GestorImportadorDeVinos}"
+            x:Key="LIST_BODEGA"
+            MethodName="BuscarBodegasConAtualizaciones"/>
+        <CollectionViewSource x:Key="VISTA_BODEGA"
+                              Source="{StaticResource ResourceKey=LIST_BODEGA}">
+            <CollectionViewSource.SortDescriptions>
+                <componentModel:SortDescription PropertyName="nombre" Direction="Descending"/>
+            </CollectionViewSource.SortDescriptions>
+        </CollectionViewSource>
+
+
+    </UserControl.Resources>
+    <Grid>
+        <materialDesign:TransitioningContent x:Name="TrainsitionigContentSlide" OpeningEffect="{materialDesign:TransitionEffect SlideInFromLeft, Duration=0:0:0.8}">
+            <!--grid define tamaño y color de la pantalla-->
+            <Grid>
+                <Border Width="auto" CornerRadius="25 25 25 25">
+                    <Border.Background>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                            <GradientStop Color="#FFE592F7" Offset="0"/>
+                            <GradientStop Color="White" Offset="1"/>
+                        </LinearGradientBrush>
+                    </Border.Background>
+                </Border>
+                
+                <!--
+
+                <Image Source="Assets/vinoToro.jpg" Height="400
+                       "/> -->
+                <StackPanel Orientation="Vertical">
+                    <TextBlock
+                    Style="{StaticResource MaterialDesignHeadline4TextBlock}"
+                    Text="Importar Actualizacion de Vinos de Bodega" 
+                    Margin="20 10"/>
+                    <TextBlock
+                    Style="{StaticResource MaterialDesignHeadline6TextBlock}"
+                    Text="Seleccione Bodega" 
+                    Margin="20 10"/>
+                
+                    <ListView ItemsSource="{Binding Source={StaticResource ResourceKey=VISTA_BODEGA}}" Margin="0,30,0,0" IsSynchronizedWithCurrentItem="True">
+                        <ListView.View>
+                            <GridView>
+                                <GridView.Columns>
+                                    <GridViewColumn Header="NOMBRE" Width="120" DisplayMemberBinding="{Binding Path=Nombre}"/>
+                                    <GridViewColumn Header="PERIODO EN MESES" Width="180" DisplayMemberBinding="{Binding Path=PeriodoActualizacion}"/>
+                                    <GridViewColumn Header="ULTIMA ACTUALIZACION" Width="210" DisplayMemberBinding="{Binding Path=FechaUltimaActualizacion}"/>
+                                </GridView.Columns>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                    
+
+                </StackPanel>
+            </Grid>
+            <!--aqui van los controles-->
+           
+        </materialDesign:TransitioningContent>
+    </Grid>
+</UserControl>
